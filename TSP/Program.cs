@@ -1,15 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TSP
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            var data = LoadData(@".\kroA100.xml");
+        }
+
+        private static IDictionary<int, int>[] LoadData(string path)
+        {
+            var doc = XDocument.Load(path);
+
+            return
+                doc.Root.Descendants("vertex").Select(
+                    v =>
+                        v.Descendants().ToDictionary(e => int.Parse(e.Value),
+                            e =>
+                                (int)
+                                    Math.Round(double.Parse(e.Attribute("cost").Value), 0,
+                                        MidpointRounding.AwayFromZero))).ToArray();
         }
     }
 }
