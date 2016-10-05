@@ -6,9 +6,8 @@ namespace TSP.Algorithm
 {
     public abstract class TspAlgorithmBase
     {
-        protected IDictionary<int, int[]> InputRoutes;
         protected IDictionary<int, int>[] Distances;
-
+        protected IDictionary<int, int[]> CalculatedRoutes;
 
         public bool IsCalculated { get; }
 
@@ -17,11 +16,12 @@ namespace TSP.Algorithm
             get
             {
                 AssertIsCalculated();
-                return InputRoutes;
+                return CalculatedRoutes;
             }
         }
-        
-        public IDictionary<int, int> RoutesLength => Routes.ToDictionary(r => r.Key, r => CalculateRouteLength(r.Value));
+
+        public IDictionary<int, int> RoutesLength
+            => Routes.ToDictionary(r => r.Key, r => CalculateRouteLength(r.Value));
 
         public KeyValuePair<int, int> ShortestRoute
         {
