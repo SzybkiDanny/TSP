@@ -9,7 +9,7 @@ namespace TSP.Algorithm
         protected IDictionary<int, int>[] Distances;
         protected IDictionary<int, int[]> CalculatedRoutes;
 
-        public bool IsCalculated { get; }
+        public bool IsCalculated { get; protected set; }
 
         public IDictionary<int, int[]> Routes
         {
