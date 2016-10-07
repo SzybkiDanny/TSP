@@ -24,7 +24,7 @@ namespace TSP.Algorithm
         {
             var route = new List<int> {cityIndex, Distances[cityIndex].OrderBy(d => d.Value).First().Key, cityIndex};
 
-            for (var k = 0; k < 48; k++)
+            for (var k = 0; k < (RouteLengthLimit ?? Distances.Length) - 2; k++)
             {
                 var delta = int.MaxValue;
                 var newCityIndex = 0;

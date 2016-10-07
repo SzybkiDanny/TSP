@@ -10,6 +10,7 @@ namespace TSP.Algorithm
         protected IDictionary<int, int[]> CalculatedRoutes;
 
         public bool IsCalculated { get; protected set; }
+        public int? RouteLengthLimit { get; set; }
 
         public IDictionary<int, int[]> Routes
         {

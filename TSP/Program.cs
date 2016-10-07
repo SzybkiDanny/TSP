@@ -12,10 +12,10 @@ namespace TSP
         {
             var data = LoadData(@".\kroA100.xml");
 
-            var gc = new GreedyCycle();
+            var gc = new GreedyCycle {RouteLengthLimit = 50};
             gc.CalculateRoutes(data);
-            
-            var gcg = new GreedyCycleGrasp();
+
+            var gcg = new GreedyCycleGrasp {RouteLengthLimit = 50};
             gcg.CalculateRoutes(data);
         }
 
@@ -26,7 +26,7 @@ namespace TSP
             return
                 doc.Root.Descendants("vertex").Select(
                     v => v.Descendants().ToDictionary(e => int.Parse(e.Value),
-                        e => (int)Math.Round(double.Parse(e.Attribute("cost").Value), 0,
+                        e => (int) Math.Round(double.Parse(e.Attribute("cost").Value), 0,
                             MidpointRounding.AwayFromZero))).ToArray();
         }
     }

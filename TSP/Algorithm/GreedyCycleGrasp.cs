@@ -29,7 +29,7 @@ namespace TSP.Algorithm
             var route = new List<int> {cityIndex, Distances[cityIndex].OrderBy(d => d.Value).First().Key, cityIndex};
             var rcl = new RestrictedCandidateList(RestrictedCandidateListLimit);
 
-            for (var k = 0; k < 48; k++)
+            for (var k = 0; k < (RouteLengthLimit ?? Distances.Length) - 2; k++)
             {
                 for (var i = 0; i < Distances.Length; i++)
                 {
