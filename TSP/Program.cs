@@ -11,8 +11,12 @@ namespace TSP
         private static void Main(string[] args)
         {
             var data = LoadData(@".\kroA100.xml");
+
             var gc = new GreedyCycle();
             gc.CalculateRoutes(data);
+            
+            var gcg = new GreedyCycleGrasp();
+            gcg.CalculateRoutes(data);
         }
 
         private static IDictionary<int, int>[] LoadData(string path)
