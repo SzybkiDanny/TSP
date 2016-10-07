@@ -15,8 +15,8 @@ namespace TSP.Algorithm
                 result[i] = CalculateRoutesFromCity(i);
 
             IsCalculated = true;
-
             CalculatedRoutes = result;
+
             return result;
         }
 
@@ -27,8 +27,9 @@ namespace TSP.Algorithm
             for (var k = 0; k < 48; k++)
             {
                 var delta = int.MaxValue;
-                var newCity = 0;
+                var newCityIndex = 0;
                 var insertCityAt = 0;
+
                 for (var i = 0; i < Distances.Length; i++)
                 {
                     if (route.Contains(i))
@@ -38,27 +39,19 @@ namespace TSP.Algorithm
                     {
                         var newDelta = Distances[route[j - 1]][i] + Distances[i][route[j]] -
                                        Distances[route[j - 1]][route[j]];
+
                         if (newDelta >= delta)
                             continue;
+
                         delta = newDelta;
-                        newCity = i;
+                        newCityIndex = i;
                         insertCityAt = j;
                     }
                 }
-                route.Insert(insertCityAt, newCity);
+                route.Insert(insertCityAt, newCityIndex);
             }
 
             return route.ToArray();
-        }
-
-        private int CalculateRouteLength(IReadOnlyList<int> route)
-        {
-            var routeLength = 0;
-
-            for (var i = 1; i < route.Count; i++)
-                routeLength += Distances[route[i - 1]][route[i]];
-
-            return routeLength;
         }
     }
 }
