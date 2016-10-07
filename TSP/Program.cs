@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using TSP.Algorithm;
 
 namespace TSP
 {
@@ -10,6 +11,8 @@ namespace TSP
         private static void Main(string[] args)
         {
             var data = LoadData(@".\kroA100.xml");
+            var gc = new GreedyCycle();
+            gc.CalculateRoutes(data);
         }
 
         private static IDictionary<int, int>[] LoadData(string path)
@@ -18,12 +21,9 @@ namespace TSP
 
             return
                 doc.Root.Descendants("vertex").Select(
-                    v =>
-                        v.Descendants().ToDictionary(e => int.Parse(e.Value),
-                            e =>
-                                (int)
-                                    Math.Round(double.Parse(e.Attribute("cost").Value), 0,
-                                        MidpointRounding.AwayFromZero))).ToArray();
+                    v => v.Descendants().ToDictionary(e => int.Parse(e.Value),
+                        e => (int)Math.Round(double.Parse(e.Attribute("cost").Value), 0,
+                            MidpointRounding.AwayFromZero))).ToArray();
         }
     }
 }
