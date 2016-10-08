@@ -8,7 +8,7 @@ namespace TSP.Algorithm
     {
         protected IDictionary<int, int>[] Distances;
         protected IDictionary<int, int[]> CalculatedRoutes;
-
+        public abstract string Name { get; }
         public bool IsCalculated { get; protected set; }
         public int? RouteLengthLimit { get; set; }
 

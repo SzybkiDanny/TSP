@@ -45,14 +45,22 @@
   <ItemGroup>
     <Compile Include="Algorithm\GreedyCycleGrasp.cs" />
     <Compile Include="Algorithm\GreedyCycle.cs" />
+    <Compile Include="Algorithm\NN.cs" />
+    <Compile Include="Algorithm\NNGrasp.cs" />
     <Compile Include="Algorithm\TspAlgorithmBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rcl\Candidate.cs" />
     <Compile Include="Rcl\RestrictedCandidateList.cs" />
+    <Compile Include="SavaResult\ExportResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="kroA100.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
