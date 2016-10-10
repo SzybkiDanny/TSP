@@ -7,11 +7,12 @@ namespace TSP.Algorithm
 {
     public class GreedyCycleGrasp : TspAlgorithmBase
     {
-        public override string Name
-        {
-            get { return "GrydeCycleGrasp"; }
-        }
         private const int RestrictedCandidateListLimit = 3;
+
+        public GreedyCycleGrasp()
+        {
+            Name = "GrydeCycleGrasp";
+        }
 
         public override IDictionary<int, int[]> CalculateRoutes(IDictionary<int, int>[] distances)
         {

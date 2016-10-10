@@ -5,10 +5,11 @@ namespace TSP.Algorithm
 {
     public class GreedyCycle : TspAlgorithmBase
     {
-        public override string Name
+        public GreedyCycle()
         {
-            get { return "GreedyCycle"; }
+            Name = "GreedyCycle";
         }
+
         public override IDictionary<int, int[]> CalculateRoutes(IDictionary<int, int>[] distances)
         {
             Distances = distances;

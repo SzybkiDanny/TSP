@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSP.Algorithm;
 
 namespace TSP.Algorithm
 {
     public class NN : TspAlgorithmBase
     {
-        public override string Name
+        public NN()
         {
-            get { return "NN"; }
+            Name = "NN";
         }
+
         public override IDictionary<int, int[]> CalculateRoutes(IDictionary<int, int>[] distances)
         {
             Distances = distances;
@@ -27,6 +24,7 @@ namespace TSP.Algorithm
 
             return result;
         }
+
         private int[] CalculateRoutesFromCity(int cityIndex)
         {
             var route = new List<int> { cityIndex };
@@ -37,9 +35,10 @@ namespace TSP.Algorithm
             route.Add(cityIndex);
             return route.ToArray();
         }
+
         private int GetNextCity(List<int> route)
         {
-            return Distances[route.Last()].OrderBy(q => q.Value).Select(q => q.Key).Where(p => !route.Contains(p)).First();
+            return Distances[route.Last()].OrderBy(q => q.Value).Select(q => q.Key).First(p => !route.Contains(p));
         }
     }
 }
