@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using TSP.Algorithm;
+using TSP.Algorithm.Optimizations;
 
 namespace TSP
 {
@@ -31,9 +32,12 @@ namespace TSP
 
                 outputFile.WriteLine(Environment.NewLine + "Średnia długość tras: " +
                                      algorithm.AverageRouteLength);
+                if(algorithm is LocalSearch)
+                    outputFile.WriteLine(Environment.NewLine + "Czas optymalizacji wszystkich tras: " +
+                                    ((LocalSearch)algorithm).GetTimeOptimalizationAllRoutes);
             }
         }
-
+       
         private static string GetRouteText(int vertex, double length, int[] values)
         {
             var result = "";

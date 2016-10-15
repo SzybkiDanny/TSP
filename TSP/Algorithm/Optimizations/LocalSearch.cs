@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics;
 using System.Linq;
 
 namespace TSP.Algorithm.Optimizations
@@ -8,10 +8,19 @@ namespace TSP.Algorithm.Optimizations
     public class LocalSearch : TspAlgorithmBase
     {
         private readonly TspAlgorithmBase _algorithm;
+        private Stopwatch _stopwatch;
+        public bool IsOptimized { get; private set; }
 
         public LocalSearch(TspAlgorithmBase algorithm)
         {
+            Name = algorithm.Name + "LocalSearch";
             _algorithm = algorithm;
+        }
+
+        private void AssertIsOptimized()
+        {
+            if (!IsOptimized)
+                throw new Exception();
         }
 
         public override IDictionary<int, int[]> CalculateRoutes(IDictionary<int, int>[] distances)
@@ -28,13 +37,15 @@ namespace TSP.Algorithm.Optimizations
         private IDictionary<int, int[]> Optimize(IDictionary<int, int[]> calculatedRoutes)
         {
             var result = new SortedList<int, int[]>();
-
+            _stopwatch=new Stopwatch();
+            _stopwatch.Start();
             for (var i = 0; i < calculatedRoutes.Count; i++)
             {
                 var optimizedRoute = OptimizeRouteFromCity(i, calculatedRoutes[i]);
                 result[optimizedRoute.First()] = optimizedRoute; // if it fails, then use Add method
             }
-
+            _stopwatch.Stop();
+            IsOptimized = true;
             return result;
         }
 
@@ -44,32 +55,42 @@ namespace TSP.Algorithm.Optimizations
             var oldCityIndex = 0;
             var newCity = 0;
 
-            for (var i = 1; i < route.Length; i++)
+            do
             {
-                for (var j = 0; j < Distances.Length; j++)
-                {
-                    if (route.Contains(j))
-                        continue;
+                minDelta = int.MaxValue;
 
-                    var delta = Distances[route[i - 1]][j]
-                                + Distances[j][route[i + 1]]
-                                - Distances[route[i - 1]][route[i]]
-                                - Distances[route[i]][route[i + 1]];
+                for (var i = 1; i < route.Length - 1; i++)
+                    for (var j = 0; j < Distances.Length; j++)
+                    {
+                        if (route.Contains(j))
+                            continue;
 
-                    if (delta >= minDelta || delta >= 0)
-                        continue;
+                        var delta = Distances[route[i - 1]][j]
+                                    + Distances[j][route[i + 1]]
+                                    - Distances[route[i - 1]][route[i]]
+                                    - Distances[route[i]][route[i + 1]];
 
-                    minDelta = delta;
-                    oldCityIndex = i;
-                    newCity = j;
-                }
-            }
+                        if ((delta >= minDelta) || (delta >= 0))
+                            continue;
 
-            if (minDelta < 0)
+                        minDelta = delta;
+                        oldCityIndex = i;
+                        newCity = j;
+                    }
+
+                if (minDelta < 0)
+                    route[oldCityIndex] = newCity;
+            } while (minDelta < 0);
+            return route;
+        }
+
+        public string GetTimeOptimalizationAllRoutes
+        {
+            get
             {
-                route[oldCityIndex] = newCity;
+                AssertIsOptimized();
+                return _stopwatch.ElapsedMilliseconds + " ms";
             }
-            return null;
         }
     }
 }

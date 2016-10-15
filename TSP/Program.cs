@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using TSP.Algorithm;
+using TSP.Algorithm.Optimizations;
 
 namespace TSP
 {
@@ -32,6 +33,27 @@ namespace TSP
             nng.CalculateRoutes(data);
             ResultExporter.Save(nng);
             Console.WriteLine("Zapisano:" + nng.Name);
+
+           
+            var lsGc = new LocalSearch(gc);
+            lsGc.CalculateRoutes(data);
+            ResultExporter.Save(lsGc);
+            Console.WriteLine("Zapisano:" + lsGc.Name);
+
+            var lsGcg = new LocalSearch(gcg);
+            lsGcg.CalculateRoutes(data);
+            ResultExporter.Save(lsGcg);
+            Console.WriteLine("Zapisano:" + lsGcg.Name);
+
+            var lsNn = new LocalSearch(nn);
+            lsNn.CalculateRoutes(data);
+            ResultExporter.Save(lsNn);
+            Console.WriteLine("Zapisano:" + lsNn.Name);
+
+            var lsNng = new LocalSearch(nng);
+            lsNng.CalculateRoutes(data);
+            ResultExporter.Save(lsNng);
+            Console.WriteLine("Zapisano:" + lsNng.Name);
 
             Console.WriteLine("Zakończono");
             Console.ReadKey(true);
