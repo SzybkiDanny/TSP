@@ -50,8 +50,8 @@ namespace TSP
 
         private static void RunAlgorithm(TspAlgorithmBase algorithm, IDictionary<int, int>[] data)
         {
-
             algorithm.CalculateRoutes(data);
+            Console.WriteLine(algorithm.ShortestRoute.Value);
             ResultExporter.Save(algorithm);
             Console.WriteLine("Zapisano:" + algorithm.Name);
         }

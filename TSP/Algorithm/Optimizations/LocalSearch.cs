@@ -42,7 +42,7 @@ namespace TSP.Algorithm.Optimizations
             for (var i = 0; i < calculatedRoutes.Count; i++)
             {
                 var optimizedRoute = OptimizeRouteFromCity(i, calculatedRoutes[i]);
-                result[optimizedRoute.First()] = optimizedRoute; // if it fails, then use Add method
+                result[optimizedRoute.First()] = optimizedRoute;
             }
 
             IsOptimized = true;
@@ -52,16 +52,18 @@ namespace TSP.Algorithm.Optimizations
         private int[] OptimizeRouteFromCity(int startIndex, int[] route)
         {
             var minDelta = int.MaxValue;
-            var oldCityIndex = 0;
-            var newCity = 0;
-
+            
             _stopwatchRoutes[startIndex] = new Stopwatch();
             _stopwatchRoutes[startIndex].Start();
+
             do
             {
-                minDelta = int.MaxValue;
+                int cityExchangeDelta = int.MaxValue,
+                    oldCityIndex = 0,
+                    newCity = 0;
 
                 for (var i = 1; i < route.Length - 1; i++)
+                {
                     for (var j = 0; j < Distances.Length; j++)
                     {
                         if (route.Contains(j))
@@ -72,17 +74,49 @@ namespace TSP.Algorithm.Optimizations
                                     - Distances[route[i - 1]][route[i]]
                                     - Distances[route[i]][route[i + 1]];
 
-                        if ((delta >= minDelta) || (delta >= 0))
+                        if (delta >= cityExchangeDelta || delta >= 0)
                             continue;
 
-                        minDelta = delta;
+                        cityExchangeDelta = delta;
                         oldCityIndex = i;
                         newCity = j;
                     }
+                }
 
-                if (minDelta < 0)
+                int routeExchangeDelta = int.MaxValue,
+                    firstRouteIndex = 0,
+                    secondRouteIndex = 0;
+
+                for (var i = 0; i < route.Length - 2; i++)
+                {
+                    for (var j = i + 2; j < route.Length - 1; j++)
+                    {
+                        var delta = Distances[route[i]][route[j]]
+                                    + Distances[route[i + 1]][route[j + 1]]
+                                    - Distances[route[i]][route[i + 1]]
+                                    - Distances[route[j]][route[j + 1]];
+
+                        if (delta >= routeExchangeDelta || delta >= 0)
+                            continue;
+
+                        routeExchangeDelta = delta;
+                        firstRouteIndex = i;
+                        secondRouteIndex = j;
+                    }
+                }
+                if (routeExchangeDelta < 0 && routeExchangeDelta <= cityExchangeDelta)
+                {
+                    var routeList = route.ToList();
+                    routeList.Reverse(firstRouteIndex + 1, secondRouteIndex - firstRouteIndex);
+                    route = routeList.ToArray();
+                }
+                else if (cityExchangeDelta < 0)
                     route[oldCityIndex] = newCity;
+
+                minDelta = Math.Min(cityExchangeDelta, routeExchangeDelta);
+
             } while (minDelta < 0);
+            
             _stopwatchRoutes[startIndex].Stop();
             return route;
         }
