@@ -15,50 +15,46 @@ namespace TSP
             var data = LoadData(@".\kroA100.xml");
 
             var gc = new GreedyCycle { RouteLengthLimit = 50 };
-            gc.CalculateRoutes(data);
-            ResultExporter.Save(gc);
-            Console.WriteLine("Zapisano:" + gc.Name);
+            RunAlgorithm(gc, data);
 
-            var gcg = new GreedyCycleGrasp { RouteLengthLimit = 50 };
-            gcg.CalculateRoutes(data);
-            ResultExporter.Save(gcg);
-            Console.WriteLine("Zapisano:" + gcg.Name);
+             var gcg = new GreedyCycleGrasp { RouteLengthLimit = 50 };
+            RunAlgorithm(gcg, data);
 
             var nn = new NN { RouteLengthLimit = 50 };
-            nn.CalculateRoutes(data);
-            ResultExporter.Save(nn);
-            Console.WriteLine("Zapisano:" + nn.Name);
+            RunAlgorithm(nn, data);
 
             var nng = new NNGrasp { RouteLengthLimit = 50 };
-            nng.CalculateRoutes(data);
-            ResultExporter.Save(nng);
-            Console.WriteLine("Zapisano:" + nng.Name);
+            RunAlgorithm(nng, data);
 
-           
+            var rr = new RandomRoutes() { RouteLengthLimit = 50 };
+            RunAlgorithm(rr, data);
+
             var lsGc = new LocalSearch(gc);
-            lsGc.CalculateRoutes(data);
-            ResultExporter.Save(lsGc);
-            Console.WriteLine("Zapisano:" + lsGc.Name);
+            RunAlgorithm(lsGc, data);
 
             var lsGcg = new LocalSearch(gcg);
-            lsGcg.CalculateRoutes(data);
-            ResultExporter.Save(lsGcg);
-            Console.WriteLine("Zapisano:" + lsGcg.Name);
+            RunAlgorithm(lsGcg, data);
 
             var lsNn = new LocalSearch(nn);
-            lsNn.CalculateRoutes(data);
-            ResultExporter.Save(lsNn);
-            Console.WriteLine("Zapisano:" + lsNn.Name);
+            RunAlgorithm(lsNn, data);
 
             var lsNng = new LocalSearch(nng);
-            lsNng.CalculateRoutes(data);
-            ResultExporter.Save(lsNng);
-            Console.WriteLine("Zapisano:" + lsNng.Name);
+            RunAlgorithm(lsNng, data);
+
+            var lsRr = new LocalSearch(rr);
+            RunAlgorithm(lsRr, data);
 
             Console.WriteLine("Zakończono");
             Console.ReadKey(true);
         }
 
+        private static void RunAlgorithm(TspAlgorithmBase algorithm, IDictionary<int, int>[] data)
+        {
+
+            algorithm.CalculateRoutes(data);
+            ResultExporter.Save(algorithm);
+            Console.WriteLine("Zapisano:" + algorithm.Name);
+        }
         private static IDictionary<int, int>[] LoadData(string path)
         {
             var doc = XDocument.Load(path);

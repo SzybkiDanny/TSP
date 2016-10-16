@@ -48,6 +48,7 @@
     <Compile Include="Algorithm\NN.cs" />
     <Compile Include="Algorithm\NNGrasp.cs" />
     <Compile Include="Algorithm\Optimizations\LocalSearch.cs" />
+    <Compile Include="Algorithm\RandomRoutes.cs" />
     <Compile Include="Algorithm\TspAlgorithmBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
