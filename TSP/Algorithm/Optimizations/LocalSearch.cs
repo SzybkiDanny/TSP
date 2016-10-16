@@ -8,13 +8,14 @@ namespace TSP.Algorithm.Optimizations
     public class LocalSearch : TspAlgorithmBase
     {
         private readonly TspAlgorithmBase _algorithm;
-        private Stopwatch _stopwatch;
+        private Dictionary<int, Stopwatch> _stopwatchRoutes;
         public bool IsOptimized { get; private set; }
 
         public LocalSearch(TspAlgorithmBase algorithm)
         {
             Name = algorithm.Name + "LocalSearch";
             _algorithm = algorithm;
+            _stopwatchRoutes = new Dictionary<int, Stopwatch>();
         }
 
         private void AssertIsOptimized()
@@ -37,14 +38,13 @@ namespace TSP.Algorithm.Optimizations
         private IDictionary<int, int[]> Optimize(IDictionary<int, int[]> calculatedRoutes)
         {
             var result = new SortedList<int, int[]>();
-            _stopwatch=new Stopwatch();
-            _stopwatch.Start();
+
             for (var i = 0; i < calculatedRoutes.Count; i++)
             {
                 var optimizedRoute = OptimizeRouteFromCity(i, calculatedRoutes[i]);
                 result[optimizedRoute.First()] = optimizedRoute; // if it fails, then use Add method
             }
-            _stopwatch.Stop();
+
             IsOptimized = true;
             return result;
         }
@@ -55,6 +55,8 @@ namespace TSP.Algorithm.Optimizations
             var oldCityIndex = 0;
             var newCity = 0;
 
+            _stopwatchRoutes[startIndex] = new Stopwatch();
+            _stopwatchRoutes[startIndex].Start();
             do
             {
                 minDelta = int.MaxValue;
@@ -81,6 +83,7 @@ namespace TSP.Algorithm.Optimizations
                 if (minDelta < 0)
                     route[oldCityIndex] = newCity;
             } while (minDelta < 0);
+            _stopwatchRoutes[startIndex].Stop();
             return route;
         }
 
@@ -89,8 +92,37 @@ namespace TSP.Algorithm.Optimizations
             get
             {
                 AssertIsOptimized();
-                return _stopwatch.ElapsedMilliseconds + " ms";
+                return _stopwatchRoutes.Sum(q => q.Value.ElapsedMilliseconds) + " ms";
             }
         }
+
+        public string GetMinTimeOptimalization
+        {
+            get
+            {
+                AssertIsOptimized();
+                return _stopwatchRoutes.Min(q => q.Value.ElapsedMilliseconds) + " ms";
+            }
+        }
+
+        public string GetMaxTimeOptimalization
+        {
+            get
+            {
+                AssertIsOptimized();
+                return _stopwatchRoutes.Max(q => q.Value.ElapsedMilliseconds) + " ms";
+            }
+        }
+
+        public string GetAvgTimeOptimalization
+        {
+            get
+            {
+                AssertIsOptimized();
+                return _stopwatchRoutes.Average(q => q.Value.ElapsedMilliseconds) + " ms";
+            }
+        }
+
+        
     }
 }

@@ -32,12 +32,20 @@ namespace TSP
 
                 outputFile.WriteLine(Environment.NewLine + "Średnia długość tras: " +
                                      algorithm.AverageRouteLength);
-                if(algorithm is LocalSearch)
+                if (algorithm is LocalSearch)
+                {
                     outputFile.WriteLine(Environment.NewLine + "Czas optymalizacji wszystkich tras: " +
                                     ((LocalSearch)algorithm).GetTimeOptimalizationAllRoutes);
+                    outputFile.WriteLine(Environment.NewLine + "Minimalny czas optymalizacji: " +
+                                   ((LocalSearch)algorithm).GetMinTimeOptimalization);
+                    outputFile.WriteLine(Environment.NewLine + "Średni czas optymalizacji: " +
+                                  ((LocalSearch)algorithm).GetAvgTimeOptimalization);
+                    outputFile.WriteLine(Environment.NewLine + "Maksymalny czas optymalizacji: " +
+                                  ((LocalSearch)algorithm).GetMaxTimeOptimalization);
+                }
             }
         }
-       
+
         private static string GetRouteText(int vertex, double length, int[] values)
         {
             var result = "";
