@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using TSP.Algorithm;
+using TSP.Algorithm.Optimizations;
 
 namespace TSP
 {
@@ -14,29 +15,46 @@ namespace TSP
             var data = LoadData(@".\kroA100.xml");
 
             var gc = new GreedyCycle { RouteLengthLimit = 50 };
-            gc.CalculateRoutes(data);
-            ResultExporter.Save(gc);
-            Console.WriteLine("Zapisano:" + gc.Name);
+            RunAlgorithm(gc, data);
 
-            var gcg = new GreedyCycleGrasp { RouteLengthLimit = 50 };
-            gcg.CalculateRoutes(data);
-            ResultExporter.Save(gcg);
-            Console.WriteLine("Zapisano:" + gcg.Name);
+             var gcg = new GreedyCycleGrasp { RouteLengthLimit = 50 };
+            RunAlgorithm(gcg, data);
 
             var nn = new NN { RouteLengthLimit = 50 };
-            nn.CalculateRoutes(data);
-            ResultExporter.Save(nn);
-            Console.WriteLine("Zapisano:" + nn.Name);
+            RunAlgorithm(nn, data);
 
             var nng = new NNGrasp { RouteLengthLimit = 50 };
-            nng.CalculateRoutes(data);
-            ResultExporter.Save(nng);
-            Console.WriteLine("Zapisano:" + nng.Name);
+            RunAlgorithm(nng, data);
+
+            var rr = new RandomRoutes() { RouteLengthLimit = 50 };
+            RunAlgorithm(rr, data);
+
+            var lsGc = new LocalSearch(gc);
+            RunAlgorithm(lsGc, data);
+
+            var lsGcg = new LocalSearch(gcg);
+            RunAlgorithm(lsGcg, data);
+
+            var lsNn = new LocalSearch(nn);
+            RunAlgorithm(lsNn, data);
+
+            var lsNng = new LocalSearch(nng);
+            RunAlgorithm(lsNng, data);
+
+            var lsRr = new LocalSearch(rr);
+            RunAlgorithm(lsRr, data);
 
             Console.WriteLine("Zakończono");
             Console.ReadKey(true);
         }
 
+        private static void RunAlgorithm(TspAlgorithmBase algorithm, IDictionary<int, int>[] data)
+        {
+            algorithm.CalculateRoutes(data);
+            Console.WriteLine(algorithm.ShortestRoute.Value);
+            ResultExporter.Save(algorithm);
+            Console.WriteLine("Zapisano:" + algorithm.Name);
+        }
         private static IDictionary<int, int>[] LoadData(string path)
         {
             var doc = XDocument.Load(path);
