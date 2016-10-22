@@ -6,13 +6,13 @@ namespace TSP.Algorithm
 {
     public abstract class TspAlgorithmBase
     {
-        protected IDictionary<int, int>[] Distances;
-        protected IDictionary<int, int[]> CalculatedRoutes;
+        public IDictionary<int, int>[] Distances;
+        protected IList<KeyValuePair<int, int[]>> CalculatedRoutes;
         public bool IsCalculated { get; protected set; }
         public int? RouteLengthLimit { get; set; }
         public string Name { get; protected set; }
 
-        public IDictionary<int, int[]> Routes
+        public IList<KeyValuePair<int, int[]>> Routes
         {
             get
             {
@@ -21,8 +21,8 @@ namespace TSP.Algorithm
             }
         }
 
-        public IDictionary<int, int> RoutesLength
-            => Routes.ToDictionary(r => r.Key, r => CalculateRouteLength(r.Value));
+        public IList<KeyValuePair<int, int>> RoutesLength
+            => Routes.Select(q => new KeyValuePair<int, int>(q.Key, CalculateRouteLength(q.Value))).ToList();
 
         public KeyValuePair<int, int> ShortestRoute
         {
@@ -51,8 +51,10 @@ namespace TSP.Algorithm
             }
         }
 
-        public abstract IDictionary<int, int[]> CalculateRoutes(
+        public abstract IList<KeyValuePair<int, int[]>> CalculateRoutes(
             IDictionary<int, int>[] distances);
+
+        
 
         private void AssertIsCalculated()
         {
@@ -60,7 +62,7 @@ namespace TSP.Algorithm
                 throw new Exception();
         }
 
-        private int CalculateRouteLength(int[] route)
+        protected int CalculateRouteLength(int[] route)
         {
             var routeLength = 0;
 

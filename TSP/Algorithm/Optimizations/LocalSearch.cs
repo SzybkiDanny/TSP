@@ -5,26 +5,19 @@ using System.Linq;
 
 namespace TSP.Algorithm.Optimizations
 {
-    public class LocalSearch : TspAlgorithmBase
+    public class LocalSearch : TspAlgorithmWithStopWatch
     {
         private readonly TspAlgorithmBase _algorithm;
-        private Dictionary<int, Stopwatch> _stopwatchRoutes;
-        public bool IsOptimized { get; private set; }
-
+    
+      
         public LocalSearch(TspAlgorithmBase algorithm)
         {
             Name = algorithm.Name + "LocalSearch";
             _algorithm = algorithm;
-            _stopwatchRoutes = new Dictionary<int, Stopwatch>();
+          
         }
-
-        private void AssertIsOptimized()
-        {
-            if (!IsOptimized)
-                throw new Exception();
-        }
-
-        public override IDictionary<int, int[]> CalculateRoutes(IDictionary<int, int>[] distances)
+       
+        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
         {
             Distances = distances;
 
@@ -35,24 +28,24 @@ namespace TSP.Algorithm.Optimizations
             return result;
         }
 
-        private IDictionary<int, int[]> Optimize(IDictionary<int, int[]> calculatedRoutes)
+        private IList<KeyValuePair<int, int[]>> Optimize(IList<KeyValuePair<int, int[]>> calculatedRoutes)
         {
-            var result = new SortedList<int, int[]>();
+            var result = new List<KeyValuePair<int, int[]>>();
 
             for (var i = 0; i < calculatedRoutes.Count; i++)
             {
-                var optimizedRoute = OptimizeRouteFromCity(i, calculatedRoutes[i]);
-                result[optimizedRoute.First()] = optimizedRoute;
+                var optimizedRoute = OptimizeRouteFromCity(i, calculatedRoutes[i].Value);
+                result.Add(new KeyValuePair<int, int[]>(optimizedRoute.First(), optimizedRoute));
             }
 
             IsOptimized = true;
             return result;
         }
 
-        private int[] OptimizeRouteFromCity(int startIndex, int[] route)
+        public int[] OptimizeRouteFromCity(int startIndex, int[] route)
         {
             var minDelta = int.MaxValue;
-            
+
             _stopwatchRoutes[startIndex] = new Stopwatch();
             _stopwatchRoutes[startIndex].Start();
 
@@ -116,47 +109,12 @@ namespace TSP.Algorithm.Optimizations
                 minDelta = Math.Min(cityExchangeDelta, routeExchangeDelta);
 
             } while (minDelta < 0);
-            
+
             _stopwatchRoutes[startIndex].Stop();
             return route;
         }
 
-        public string GetTimeOptimalizationAllRoutes
-        {
-            get
-            {
-                AssertIsOptimized();
-                return _stopwatchRoutes.Sum(q => q.Value.ElapsedMilliseconds) + " ms";
-            }
-        }
+       
 
-        public string GetMinTimeOptimalization
-        {
-            get
-            {
-                AssertIsOptimized();
-                return _stopwatchRoutes.Min(q => q.Value.ElapsedMilliseconds) + " ms";
-            }
-        }
-
-        public string GetMaxTimeOptimalization
-        {
-            get
-            {
-                AssertIsOptimized();
-                return _stopwatchRoutes.Max(q => q.Value.ElapsedMilliseconds) + " ms";
-            }
-        }
-
-        public string GetAvgTimeOptimalization
-        {
-            get
-            {
-                AssertIsOptimized();
-                return _stopwatchRoutes.Average(q => q.Value.ElapsedMilliseconds) + " ms";
-            }
-        }
-
-        
     }
 }

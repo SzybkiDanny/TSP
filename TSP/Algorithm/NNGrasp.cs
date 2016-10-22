@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TSP.Interface;
 
 namespace TSP.Algorithm
 {
-    public class NNGrasp : TspAlgorithmBase
+    public class NNGrasp : TspAlgorithmBase, INonDeterministicAlgorithm
     {
         private Random _random = new Random();
 
@@ -13,14 +14,14 @@ namespace TSP.Algorithm
             Name = "NNGrasp";
         }
 
-        public override IDictionary<int, int[]> CalculateRoutes(IDictionary<int, int>[] distances)
+        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
         {
             Distances = distances;
 
-            var result = new Dictionary<int, int[]>();
+            var result = new List<KeyValuePair<int, int[]>>();
 
             for (var i = 0; i < distances.Count(); i++)
-                result[i] = CalculateRoutesFromCity(i);
+                result.Add(new KeyValuePair<int, int[]>(i, (CalculateRoutesFromCity(i))));
 
             IsCalculated = true;
             CalculatedRoutes = result;
@@ -28,7 +29,7 @@ namespace TSP.Algorithm
             return result;
         }
 
-        private int[] CalculateRoutesFromCity(int cityIndex)
+        public int[] CalculateRoutesFromCity(int cityIndex)
         {
             var route = new List<int> {cityIndex};
 

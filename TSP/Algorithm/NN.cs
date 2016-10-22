@@ -10,14 +10,14 @@ namespace TSP.Algorithm
             Name = "NN";
         }
 
-        public override IDictionary<int, int[]> CalculateRoutes(IDictionary<int, int>[] distances)
+        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
         {
             Distances = distances;
 
-            var result = new Dictionary<int, int[]>();
+            var result = new List<KeyValuePair<int, int[]>>();
 
             for (var i = 0; i < distances.Count(); i++)
-                result[i] = CalculateRoutesFromCity(i);
+                result.Add(new KeyValuePair<int, int[]>(i, (CalculateRoutesFromCity(i))));
 
             IsCalculated = true;
             CalculatedRoutes = result;

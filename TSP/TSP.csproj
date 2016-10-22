@@ -48,12 +48,17 @@
     <Compile Include="Algorithm\NN.cs" />
     <Compile Include="Algorithm\NNGrasp.cs" />
     <Compile Include="Algorithm\Optimizations\LocalSearch.cs" />
+    <Compile Include="Algorithm\Optimizations\MultipleStartLocalSearch\MultipleStartLocalSearch.cs" />
+    <Compile Include="Algorithm\Optimizations\MultipleStartLocalSearch\RunnerMultipleStartLocalSearch.cs" />
     <Compile Include="Algorithm\RandomRoutes.cs" />
     <Compile Include="Algorithm\TspAlgorithmBase.cs" />
+    <Compile Include="Algorithm\TspAlgorithmWithStopWatch.cs" />
+    <Compile Include="Interface\INonDeterministicAlgorithm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rcl\Candidate.cs" />
     <Compile Include="Rcl\RestrictedCandidateList.cs" />
+    <Compile Include="ReportRunner.cs" />
     <Compile Include="ResultExporter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +69,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

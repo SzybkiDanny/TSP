@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using TSP.Algorithm;
 using TSP.Algorithm.Optimizations;
+using TSP.Algorithm.Optimizations.MultipleStartLocalSearch;
 
 namespace TSP
 {
@@ -32,16 +33,16 @@ namespace TSP
 
                 outputFile.WriteLine(Environment.NewLine + "Średnia długość tras: " +
                                      algorithm.AverageRouteLength);
-                if (algorithm is LocalSearch)
+                if (algorithm is TspAlgorithmWithStopWatch)
                 {
                     outputFile.WriteLine(Environment.NewLine + "Czas optymalizacji wszystkich tras: " +
-                                    ((LocalSearch)algorithm).GetTimeOptimalizationAllRoutes);
+                                    ((TspAlgorithmWithStopWatch)algorithm).GetTimeOptimalizationAllRoutes);
                     outputFile.WriteLine(Environment.NewLine + "Minimalny czas optymalizacji: " +
-                                   ((LocalSearch)algorithm).GetMinTimeOptimalization);
+                                   ((TspAlgorithmWithStopWatch)algorithm).GetMinTimeOptimalization);
                     outputFile.WriteLine(Environment.NewLine + "Średni czas optymalizacji: " +
-                                  ((LocalSearch)algorithm).GetAvgTimeOptimalization);
+                                  ((TspAlgorithmWithStopWatch)algorithm).GetAvgTimeOptimalization);
                     outputFile.WriteLine(Environment.NewLine + "Maksymalny czas optymalizacji: " +
-                                  ((LocalSearch)algorithm).GetMaxTimeOptimalization);
+                                  ((TspAlgorithmWithStopWatch)algorithm).GetMaxTimeOptimalization);
                 }
             }
         }

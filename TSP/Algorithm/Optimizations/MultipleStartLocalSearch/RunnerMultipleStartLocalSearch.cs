@@ -1,0 +1,52 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using TSP.Interface;
+
+namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
+{
+    public class RunnerMultipleStartLocalSearch : TspAlgorithmWithStopWatch
+    {
+        public int CountStartMultipleStartLocalSearch { get; set; }
+        public int? CountStartInsideMultipleStartLocalSearch { get; set; }
+        public INonDeterministicAlgorithm _algorithmNonDeterministic;
+        public RunnerMultipleStartLocalSearch(INonDeterministicAlgorithm algorithmNonDeterministic)
+        {
+            _algorithmNonDeterministic = algorithmNonDeterministic;
+            Name = ((TspAlgorithmBase)_algorithmNonDeterministic).Name + " MultipleStartLocalSearch";
+            _stopwatchRoutes = new Dictionary<int, Stopwatch>();
+            RouteLengthLimit = ((TspAlgorithmBase)_algorithmNonDeterministic).RouteLengthLimit;
+        }
+
+        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
+        {
+            Distances = distances;
+
+            var result = new List<KeyValuePair<int, int[]>>();
+
+            for (var i = 0; i < CountStartMultipleStartLocalSearch; i++)
+            {
+                _stopwatchRoutes[i] = new Stopwatch();
+                _stopwatchRoutes[i].Start();
+
+                var msls = new MultipleStartLocalSearch(_algorithmNonDeterministic)
+                {
+                    CountRepeatStartAlgorithm = CountStartInsideMultipleStartLocalSearch,
+                    RouteLengthLimit = RouteLengthLimit
+
+                };
+
+                msls.CalculateRoutes(distances);
+                _stopwatchRoutes[i].Stop();
+
+                result.Add(msls.Routes.OrderBy(r => CalculateRouteLength(r.Value)).First());
+            }
+
+            IsOptimized = true;
+            IsCalculated = true;
+            CalculatedRoutes = result;
+            return result;
+        }
+    }
+}
