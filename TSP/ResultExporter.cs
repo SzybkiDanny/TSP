@@ -35,14 +35,7 @@ namespace TSP
                                      algorithm.AverageRouteLength);
                 if (algorithm is TspAlgorithmWithStopWatch)
                 {
-                    outputFile.WriteLine(Environment.NewLine + "Czas optymalizacji wszystkich tras: " +
-                                    ((TspAlgorithmWithStopWatch)algorithm).GetTimeOptimalizationAllRoutes);
-                    outputFile.WriteLine(Environment.NewLine + "Minimalny czas optymalizacji: " +
-                                   ((TspAlgorithmWithStopWatch)algorithm).GetMinTimeOptimalization);
-                    outputFile.WriteLine(Environment.NewLine + "Średni czas optymalizacji: " +
-                                  ((TspAlgorithmWithStopWatch)algorithm).GetAvgTimeOptimalization);
-                    outputFile.WriteLine(Environment.NewLine + "Maksymalny czas optymalizacji: " +
-                                  ((TspAlgorithmWithStopWatch)algorithm).GetMaxTimeOptimalization);
+                    outputFile.WriteLine(GetStopwatchText((TspAlgorithmWithStopWatch) algorithm));
                 }
             }
         }
@@ -54,6 +47,16 @@ namespace TSP
             result += $"Długość: {length}{Environment.NewLine}";
             result += $"Przebieg: {string.Join(", ", values)}{Environment.NewLine}";
             result += $"****************************************{Environment.NewLine}";
+            return result;
+        }
+
+        private static string GetStopwatchText(TspAlgorithmWithStopWatch algorithm)
+        {
+            var result = "";
+            result += $"Czas optymalizacji wszystkich tras: {algorithm.GetTimeOptimalizationAllRoutes} ms {Environment.NewLine}";
+            result += $"Minimalny czas optymalizacji: {algorithm.GetMinTimeOptimalization} ms {Environment.NewLine}";
+            result += $"Średni czas optymalizacji:  { algorithm.GetAvgTimeOptimalization} ms {Environment.NewLine}";
+            result += $"Maksymalny czas optymalizacji: { algorithm.GetMaxTimeOptimalization} ms {Environment.NewLine}";
             return result;
         }
     }

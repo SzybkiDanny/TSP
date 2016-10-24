@@ -10,8 +10,9 @@ namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
 {
     public class MultipleStartLocalSearch : TspAlgorithmBase
     {
+        private readonly Random _random = new Random();
         public int? CountRepeatStartAlgorithm { get; set; }
-        public INonDeterministicAlgorithm _algorithmNonDeterministic { get; set; }
+        private INonDeterministicAlgorithm _algorithmNonDeterministic { get; set; }
 
         private LocalSearch _algorithmLocalSearch;
 
@@ -30,11 +31,11 @@ namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
             _algorithmLocalSearch.Distances = distances;
 
             var result = new List<KeyValuePair<int, int[]>>();
-            Random random = new Random();
+           
 
             for (int i = 0; i < CountRepeatStartAlgorithm; i++)
             {
-                var routeStart = CalculateRoutesFromCity(random.Next((Distances.Length)));
+                var routeStart = CalculateRoutesFromCity(_random.Next((Distances.Length)));
                 var optimizedRoute = _algorithmLocalSearch.OptimizeRouteFromCity(i, routeStart);
                 result.Add(new KeyValuePair<int, int[]>(optimizedRoute.First(), optimizedRoute));
             }

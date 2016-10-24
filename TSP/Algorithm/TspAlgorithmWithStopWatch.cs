@@ -16,39 +16,39 @@ namespace TSP.Algorithm
 
         public bool IsOptimized { get; protected set; }
 
-        public string GetTimeOptimalizationAllRoutes
+        public long GetTimeOptimalizationAllRoutes
         {
             get
             {
                 AssertIsOptimized();
-                return _stopwatchRoutes.Sum(q => q.Value.ElapsedMilliseconds) + " ms";
+                return _stopwatchRoutes.Sum(q => q.Value.ElapsedMilliseconds);
             }
         }
 
-        public string GetMinTimeOptimalization
+        public long GetMinTimeOptimalization
         {
             get
             {
                 AssertIsOptimized();
-                return _stopwatchRoutes.Min(q => q.Value.ElapsedMilliseconds) + " ms";
+                return _stopwatchRoutes.Min(q => q.Value.ElapsedMilliseconds);
             }
         }
 
-        public string GetMaxTimeOptimalization
+        public long GetMaxTimeOptimalization
         {
             get
             {
                 AssertIsOptimized();
-                return _stopwatchRoutes.Max(q => q.Value.ElapsedMilliseconds) + " ms";
+                return _stopwatchRoutes.Max(q => q.Value.ElapsedMilliseconds);
             }
         }
 
-        public string GetAvgTimeOptimalization
+        public long GetAvgTimeOptimalization
         {
             get
             {
                 AssertIsOptimized();
-                return _stopwatchRoutes.Average(q => q.Value.ElapsedMilliseconds) + " ms";
+                return (long)_stopwatchRoutes.Average(q => q.Value.ElapsedMilliseconds);
             }
         }
 

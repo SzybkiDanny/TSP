@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TSP.Algorithm;
 using TSP.Algorithm.Optimizations;
+using TSP.Algorithm.Optimizations.IteratedLocalSearch;
 using TSP.Algorithm.Optimizations.MultipleStartLocalSearch;
 
 namespace TSP
@@ -14,19 +15,19 @@ namespace TSP
 
         public static void Report2(IDictionary<int, int>[] data)
         {
-            var gc = new GreedyCycle {RouteLengthLimit = 50};
+            var gc = new GreedyCycle { RouteLengthLimit = 50 };
             RunAlgorithm(gc, data);
 
-            var gcg = new GreedyCycleGrasp {RouteLengthLimit = 50};
+            var gcg = new GreedyCycleGrasp { RouteLengthLimit = 50 };
             RunAlgorithm(gcg, data);
 
-            var nn = new NN {RouteLengthLimit = 50};
+            var nn = new NN { RouteLengthLimit = 50 };
             RunAlgorithm(nn, data);
 
-            var nng = new NNGrasp {RouteLengthLimit = 50};
+            var nng = new NNGrasp { RouteLengthLimit = 50 };
             RunAlgorithm(nng, data);
 
-            var rr = new RandomRoutes {RouteLengthLimit = 50};
+            var rr = new RandomRoutes { RouteLengthLimit = 50 };
             RunAlgorithm(rr, data);
 
             var lsGc = new LocalSearch(gc);
@@ -48,12 +49,18 @@ namespace TSP
         public static void Report3(IDictionary<int, int>[] data)
         {
             var runnerMultipleStartLocalSearch =
-                new RunnerMultipleStartLocalSearch(new GreedyCycleGrasp {RouteLengthLimit = 50})
+                new RunnerMultipleStartLocalSearch(new GreedyCycleGrasp { RouteLengthLimit = 50 })
                 {
                     CountStartInsideMultipleStartLocalSearch = 1000,
                     CountStartMultipleStartLocalSearch = 10
                 };
             RunAlgorithm(runnerMultipleStartLocalSearch, data);
+
+            var ils = new IteratedLocalSearch(new GreedyCycleGrasp() { RouteLengthLimit = 50 })
+            {
+                DurationLimit = (int)runnerMultipleStartLocalSearch.GetAvgTimeOptimalization / 1000
+            };
+            RunAlgorithm(ils, data);
         }
 
         private static void RunAlgorithm(TspAlgorithmBase algorithm, IDictionary<int, int>[] data)
