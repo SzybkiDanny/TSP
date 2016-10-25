@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
-using TSP.Algorithm;
-using TSP.Algorithm.Optimizations;
 
 namespace TSP
 {
@@ -22,7 +20,7 @@ namespace TSP
             Console.ReadKey(true);
         }
 
-      
+
         private static IDictionary<int, int>[] LoadData(string path)
         {
             var doc = XDocument.Load(path);
@@ -30,8 +28,8 @@ namespace TSP
             return
                 doc.Root.Descendants("vertex").Select(
                     v => v.Descendants().ToDictionary(e => int.Parse(e.Value),
-                        e => (int)Math.Round(double.Parse(e.Attribute("cost").Value, 
-                                CultureInfo.InvariantCulture), 0,
+                        e => (int) Math.Round(double.Parse(e.Attribute("cost").Value,
+                            CultureInfo.InvariantCulture), 0,
                             MidpointRounding.AwayFromZero))).ToArray();
         }
     }

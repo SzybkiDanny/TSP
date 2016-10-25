@@ -6,8 +6,8 @@ namespace TSP.Algorithm
 {
     public abstract class TspAlgorithmBase
     {
-        public IDictionary<int, int>[] Distances;
         protected IList<KeyValuePair<int, int[]>> CalculatedRoutes;
+        public IDictionary<int, int>[] Distances;
         public bool IsCalculated { get; protected set; }
         public int? RouteLengthLimit { get; set; }
         public string Name { get; protected set; }
@@ -22,7 +22,9 @@ namespace TSP.Algorithm
         }
 
         public IList<KeyValuePair<int, int>> RoutesLength
-            => Routes.Select(q => new KeyValuePair<int, int>(q.Key, CalculateRouteLength(q.Value))).ToList();
+            =>
+                Routes.Select(q => new KeyValuePair<int, int>(q.Key, CalculateRouteLength(q.Value)))
+                    .ToList();
 
         public KeyValuePair<int, int> ShortestRoute
         {
@@ -54,7 +56,6 @@ namespace TSP.Algorithm
         public abstract IList<KeyValuePair<int, int[]>> CalculateRoutes(
             IDictionary<int, int>[] distances);
 
-        
 
         private void AssertIsCalculated()
         {

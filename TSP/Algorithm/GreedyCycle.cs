@@ -10,14 +10,15 @@ namespace TSP.Algorithm
             Name = "GreedyCycle";
         }
 
-        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
+        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(
+            IDictionary<int, int>[] distances)
         {
             Distances = distances;
 
             var result = new List<KeyValuePair<int, int[]>>();
 
             for (var i = 0; i < distances.Count(); i++)
-                result.Add(new KeyValuePair<int, int[]>(i, (CalculateRoutesFromCity(i))));
+                result.Add(new KeyValuePair<int, int[]>(i, CalculateRoutesFromCity(i)));
 
             IsCalculated = true;
             CalculatedRoutes = result;
@@ -27,7 +28,12 @@ namespace TSP.Algorithm
 
         private int[] CalculateRoutesFromCity(int cityIndex)
         {
-            var route = new List<int> {cityIndex, Distances[cityIndex].OrderBy(d => d.Value).First().Key, cityIndex};
+            var route = new List<int>
+            {
+                cityIndex,
+                Distances[cityIndex].OrderBy(d => d.Value).First().Key,
+                cityIndex
+            };
 
             for (var k = 0; k < (RouteLengthLimit ?? Distances.Length) - 2; k++)
             {

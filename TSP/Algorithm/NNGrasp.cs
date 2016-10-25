@@ -7,26 +7,11 @@ namespace TSP.Algorithm
 {
     public class NNGrasp : TspAlgorithmBase, INonDeterministicAlgorithm
     {
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
 
         public NNGrasp()
         {
             Name = "NNGrasp";
-        }
-
-        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
-        {
-            Distances = distances;
-
-            var result = new List<KeyValuePair<int, int[]>>();
-
-            for (var i = 0; i < distances.Count(); i++)
-                result.Add(new KeyValuePair<int, int[]>(i, (CalculateRoutesFromCity(i))));
-
-            IsCalculated = true;
-            CalculatedRoutes = result;
-
-            return result;
         }
 
         public int[] CalculateRoutesFromCity(int cityIndex)
@@ -41,6 +26,22 @@ namespace TSP.Algorithm
 
             route.Add(cityIndex);
             return route.ToArray();
+        }
+
+        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(
+            IDictionary<int, int>[] distances)
+        {
+            Distances = distances;
+
+            var result = new List<KeyValuePair<int, int[]>>();
+
+            for (var i = 0; i < distances.Count(); i++)
+                result.Add(new KeyValuePair<int, int[]>(i, CalculateRoutesFromCity(i)));
+
+            IsCalculated = true;
+            CalculatedRoutes = result;
+
+            return result;
         }
 
         private List<int> GetThreeNextCities(List<int> route)

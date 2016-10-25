@@ -2,8 +2,6 @@
 using System.IO;
 using System.Linq;
 using TSP.Algorithm;
-using TSP.Algorithm.Optimizations;
-using TSP.Algorithm.Optimizations.MultipleStartLocalSearch;
 
 namespace TSP
 {
@@ -53,10 +51,14 @@ namespace TSP
         private static string GetStopwatchText(TspAlgorithmWithStopWatch algorithm)
         {
             var result = "";
-            result += $"Czas optymalizacji wszystkich tras: {algorithm.GetTimeOptimalizationAllRoutes} ms {Environment.NewLine}";
-            result += $"Minimalny czas optymalizacji: {algorithm.GetMinTimeOptimalization} ms {Environment.NewLine}";
-            result += $"Średni czas optymalizacji:  { algorithm.GetAvgTimeOptimalization} ms {Environment.NewLine}";
-            result += $"Maksymalny czas optymalizacji: { algorithm.GetMaxTimeOptimalization} ms {Environment.NewLine}";
+            result +=
+                $"Czas optymalizacji wszystkich tras: {algorithm.GetTimeOptimalizationAllRoutes} ms {Environment.NewLine}";
+            result +=
+                $"Minimalny czas optymalizacji: {algorithm.GetMinTimeOptimalization} ms {Environment.NewLine}";
+            result +=
+                $"Średni czas optymalizacji:  {algorithm.GetAvgTimeOptimalization} ms {Environment.NewLine}";
+            result +=
+                $"Maksymalny czas optymalizacji: {algorithm.GetMaxTimeOptimalization} ms {Environment.NewLine}";
             return result;
         }
     }

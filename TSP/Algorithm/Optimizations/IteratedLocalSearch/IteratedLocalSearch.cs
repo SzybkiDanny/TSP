@@ -12,6 +12,10 @@ namespace TSP.Algorithm.Optimizations.IteratedLocalSearch
 
         private LocalSearch _algorithmLocalSearch;
 
+        public int DurationLimit { get; set; }
+
+        private INonDeterministicAlgorithm _algorithmNonDeterministic { get; }
+
         public IteratedLocalSearch(INonDeterministicAlgorithm algorithmNonDeterministic)
         {
             _algorithmNonDeterministic = algorithmNonDeterministic;
@@ -20,11 +24,8 @@ namespace TSP.Algorithm.Optimizations.IteratedLocalSearch
             Name = ((TspAlgorithmBase) _algorithmNonDeterministic).Name + " IteratedLocalSearch";
         }
 
-        public int DurationLimit { get; set; }
-
-        private INonDeterministicAlgorithm _algorithmNonDeterministic { get; }
-
-        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
+        public override IList<KeyValuePair<int, int[]>> CalculateRoutes(
+            IDictionary<int, int>[] distances)
         {
             return CalculateRoutes(distances, TimeSpan.FromSeconds(DurationLimit));
         }
@@ -61,13 +62,15 @@ namespace TSP.Algorithm.Optimizations.IteratedLocalSearch
             _stopwatchRoutes[0].Start();
 
             var initialRoute = CalculateRoutesFromCity(_random.Next(Distances.Length));
-            var optimizedRoute = _algorithmLocalSearch.OptimizeRouteFromCity(initialRoute.First(), initialRoute);
+            var optimizedRoute = _algorithmLocalSearch.OptimizeRouteFromCity(initialRoute.First(),
+                initialRoute);
 
             do
             {
                 var modifiedRoute = Perturbate(optimizedRoute);
 
-                modifiedRoute = _algorithmLocalSearch.OptimizeRouteFromCity(modifiedRoute.First(), modifiedRoute);
+                modifiedRoute = _algorithmLocalSearch.OptimizeRouteFromCity(modifiedRoute.First(),
+                    modifiedRoute);
 
                 if (CalculateRouteLength(modifiedRoute) < CalculateRouteLength(optimizedRoute))
                     optimizedRoute = modifiedRoute;
