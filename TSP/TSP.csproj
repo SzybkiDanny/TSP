@@ -52,6 +52,7 @@
     <Compile Include="Algorithm\Optimizations\MultipleStartLocalSearch\MultipleStartLocalSearch.cs" />
     <Compile Include="Algorithm\Optimizations\MultipleStartLocalSearch\RunnerMultipleStartLocalSearch.cs" />
     <Compile Include="Algorithm\RandomRoutes.cs" />
+    <Compile Include="Algorithm\RoutesComparer.cs" />
     <Compile Include="Algorithm\TspAlgorithmBase.cs" />
     <Compile Include="Algorithm\TspAlgorithmWithStopWatch.cs" />
     <Compile Include="Interface\INonDeterministicAlgorithm.cs" />

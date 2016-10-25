@@ -14,9 +14,10 @@ namespace TSP
 
             //ReportRunner.Report2(data);
 
-            ReportRunner.Report3(data);
+            //ReportRunner.Report3(data);
+			ReportRunner.Report4(data);
 
-            Console.WriteLine("Zakończono");
+			Console.WriteLine("Zakończono");
             Console.ReadKey(true);
         }
 
