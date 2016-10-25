@@ -4,6 +4,7 @@ using TSP.Algorithm;
 using TSP.Algorithm.Optimizations;
 using TSP.Algorithm.Optimizations.IteratedLocalSearch;
 using TSP.Algorithm.Optimizations.MultipleStartLocalSearch;
+using TSP.Interface;
 
 namespace TSP {
 	public static class ReportRunner {
@@ -57,13 +58,29 @@ namespace TSP {
 		}
 		public static void Report4(IDictionary<int, int>[] data) {
 
-			var nn = new NN() { RouteLengthLimit = 50 };
-			nn.CalculateRoutes(data);
+			var resultVertices = new List<KeyValuePair<int, int>[]>();
+			var resultEdges = new List<KeyValuePair<int, int>[]>();
 
+			var routes = new List<int[]>();
+			var algorithm = new RandomRoutes() { RouteLengthLimit = 50 };
+			var random = new Random();
 
-			RoutesComparer comparer = new RoutesComparer();
-			var countVertices = comparer.RouteVertexCompare(nn.Routes[0].Value, nn.Routes[1].Value);
-			var countEdges = comparer.RouteEdgeCompare(nn.Routes[0].Value, nn.Routes[1].Value);
+			var algorithmLocalSearch = new LocalSearch(algorithm);
+
+			for(var i = 0; i < 1000; i++) {
+				var routeStart = algorithm.CalculateRoutesFromCity(random.Next(data.Length));
+				var optimizedRoute = algorithmLocalSearch.OptimizeRouteFromCity(i, routeStart);
+
+				routes.Add(optimizedRoute);
+			}
+
+			for(var i = 0; i < routes.Count; i++) {
+				for(var j = i + 1; j < routes.Count; j++) {
+					var comparer = new RoutesComparer();
+					var countVertices = comparer.RouteVertexCompare(routes[i], routes[j]);
+					var countEdges = comparer.RouteEdgeCompare(routes[i], routes[j]);
+				}
+			}
 
 		}
 
