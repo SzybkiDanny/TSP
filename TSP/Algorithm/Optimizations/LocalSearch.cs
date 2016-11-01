@@ -8,15 +8,14 @@ namespace TSP.Algorithm.Optimizations
     public class LocalSearch : TspAlgorithmWithStopWatch
     {
         private readonly TspAlgorithmBase _algorithm;
-    
-      
+
+
         public LocalSearch(TspAlgorithmBase algorithm)
         {
             Name = algorithm.Name + "LocalSearch";
             _algorithm = algorithm;
-          
         }
-       
+
         public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
         {
             Distances = distances;
@@ -56,7 +55,6 @@ namespace TSP.Algorithm.Optimizations
                     newCity = 0;
 
                 for (var i = 1; i < route.Length - 1; i++)
-                {
                     for (var j = 0; j < Distances.Length; j++)
                     {
                         if (route.Contains(j))
@@ -67,21 +65,19 @@ namespace TSP.Algorithm.Optimizations
                                     - Distances[route[i - 1]][route[i]]
                                     - Distances[route[i]][route[i + 1]];
 
-                        if (delta >= cityExchangeDelta || delta >= 0)
+                        if ((delta >= cityExchangeDelta) || (delta >= 0))
                             continue;
 
                         cityExchangeDelta = delta;
                         oldCityIndex = i;
                         newCity = j;
                     }
-                }
 
                 int routeExchangeDelta = int.MaxValue,
                     firstRouteIndex = 0,
                     secondRouteIndex = 0;
 
                 for (var i = 0; i < route.Length - 2; i++)
-                {
                     for (var j = i + 2; j < route.Length - 1; j++)
                     {
                         var delta = Distances[route[i]][route[j]]
@@ -89,15 +85,14 @@ namespace TSP.Algorithm.Optimizations
                                     - Distances[route[i]][route[i + 1]]
                                     - Distances[route[j]][route[j + 1]];
 
-                        if (delta >= routeExchangeDelta || delta >= 0)
+                        if ((delta >= routeExchangeDelta) || (delta >= 0))
                             continue;
 
                         routeExchangeDelta = delta;
                         firstRouteIndex = i;
                         secondRouteIndex = j;
                     }
-                }
-                if (routeExchangeDelta < 0 && routeExchangeDelta <= cityExchangeDelta)
+                if ((routeExchangeDelta < 0) && (routeExchangeDelta <= cityExchangeDelta))
                 {
                     var routeList = route.ToList();
                     routeList.Reverse(firstRouteIndex + 1, secondRouteIndex - firstRouteIndex);
@@ -107,14 +102,10 @@ namespace TSP.Algorithm.Optimizations
                     route[oldCityIndex] = newCity;
 
                 minDelta = Math.Min(cityExchangeDelta, routeExchangeDelta);
-
             } while (minDelta < 0);
 
             _stopwatchRoutes[startIndex].Stop();
             return route;
         }
-
-       
-
     }
 }

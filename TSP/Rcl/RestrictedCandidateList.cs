@@ -7,8 +7,10 @@ namespace TSP.Rcl
     public class RestrictedCandidateList
     {
         private readonly int _limit;
+
         private readonly SortedList<int, Candidate> _list =
             new SortedList<int, Candidate>(new DuplicateKeyComparer<int>());
+
         private readonly Random _random = new Random();
 
         public RestrictedCandidateList(int limit)

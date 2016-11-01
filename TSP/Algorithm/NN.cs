@@ -30,9 +30,7 @@ namespace TSP.Algorithm
         {
             var route = new List<int> {cityIndex};
             for (var k = 0; k < (RouteLengthLimit ?? Distances.Length) - 1; k++)
-            {
                 route.Add(GetNextCity(route));
-            }
             route.Add(cityIndex);
             return route.ToArray();
         }

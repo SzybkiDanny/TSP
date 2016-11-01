@@ -23,8 +23,8 @@ namespace TSP.Algorithm
 
         public IList<KeyValuePair<int, int>> RoutesLength
             =>
-                Routes.Select(q => new KeyValuePair<int, int>(q.Key, CalculateRouteLength(q.Value)))
-                    .ToList();
+            Routes.Select(q => new KeyValuePair<int, int>(q.Key, CalculateRouteLength(q.Value)))
+                .ToList();
 
         public KeyValuePair<int, int> ShortestRoute
         {

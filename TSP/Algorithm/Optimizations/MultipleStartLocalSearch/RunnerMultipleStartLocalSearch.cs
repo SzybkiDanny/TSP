@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using TSP.Interface;
@@ -8,16 +7,18 @@ namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
 {
     public class RunnerMultipleStartLocalSearch : TspAlgorithmWithStopWatch
     {
-        public int CountStartMultipleStartLocalSearch { get; set; }
-        public int? CountStartInsideMultipleStartLocalSearch { get; set; }
         public INonDeterministicAlgorithm _algorithmNonDeterministic;
+
         public RunnerMultipleStartLocalSearch(INonDeterministicAlgorithm algorithmNonDeterministic)
         {
             _algorithmNonDeterministic = algorithmNonDeterministic;
-            Name = ((TspAlgorithmBase)_algorithmNonDeterministic).Name + " MultipleStartLocalSearch";
+            Name = ((TspAlgorithmBase) _algorithmNonDeterministic).Name + " MultipleStartLocalSearch";
             _stopwatchRoutes = new Dictionary<int, Stopwatch>();
-            RouteLengthLimit = ((TspAlgorithmBase)_algorithmNonDeterministic).RouteLengthLimit;
+            RouteLengthLimit = ((TspAlgorithmBase) _algorithmNonDeterministic).RouteLengthLimit;
         }
+
+        public int CountStartMultipleStartLocalSearch { get; set; }
+        public int? CountStartInsideMultipleStartLocalSearch { get; set; }
 
         public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
         {
@@ -34,7 +35,6 @@ namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
                 {
                     CountRepeatStartAlgorithm = CountStartInsideMultipleStartLocalSearch,
                     RouteLengthLimit = RouteLengthLimit
-
                 };
 
                 msls.CalculateRoutes(distances);

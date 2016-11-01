@@ -12,10 +12,6 @@ namespace TSP.Algorithm.Optimizations.IteratedLocalSearch
 
         private LocalSearch _algorithmLocalSearch;
 
-        public int DurationLimit { get; set; }
-
-        private INonDeterministicAlgorithm _algorithmNonDeterministic { get; }
-
         public IteratedLocalSearch(INonDeterministicAlgorithm algorithmNonDeterministic)
         {
             _algorithmNonDeterministic = algorithmNonDeterministic;
@@ -23,6 +19,10 @@ namespace TSP.Algorithm.Optimizations.IteratedLocalSearch
             ((TspAlgorithmBase) _algorithmNonDeterministic).RouteLengthLimit = RouteLengthLimit;
             Name = ((TspAlgorithmBase) _algorithmNonDeterministic).Name + " IteratedLocalSearch";
         }
+
+        public int DurationLimit { get; set; }
+
+        private INonDeterministicAlgorithm _algorithmNonDeterministic { get; }
 
         public override IList<KeyValuePair<int, int[]>> CalculateRoutes(
             IDictionary<int, int>[] distances)

@@ -13,11 +13,10 @@ namespace TSP
             var data = LoadData(@".\kroA100.xml");
 
             //ReportRunner.Report2(data);
-
             //ReportRunner.Report3(data);
-			ReportRunner.Report4(data);
+            ReportRunner.Report4(data);
 
-			Console.WriteLine("Zakończono");
+            Console.WriteLine("Zakończono");
             Console.ReadKey(true);
         }
 
@@ -30,7 +29,7 @@ namespace TSP
                 doc.Root.Descendants("vertex").Select(
                     v => v.Descendants().ToDictionary(e => int.Parse(e.Value),
                         e => (int) Math.Round(double.Parse(e.Attribute("cost").Value,
-                            CultureInfo.InvariantCulture), 0,
+                                CultureInfo.InvariantCulture), 0,
                             MidpointRounding.AwayFromZero))).ToArray();
         }
     }
