@@ -56,17 +56,19 @@ namespace TSP
                 };
             RunAlgorithm(runnerMultipleStartLocalSearch, data);
 
-            var ils = new IteratedLocalSearch(new GreedyCycleGrasp {RouteLengthLimit = 50})
-            {
-                DurationLimit = (int) runnerMultipleStartLocalSearch.GetAvgTimeOptimalization/1000
-            };
-            RunAlgorithm(ils, data);
+            var runnerIteratedLocalSearch =
+                new RunnerIteratedLocalSearch(new GreedyCycleGrasp {RouteLengthLimit = 50})
+                {
+                    CountStartIteratedLocalSearch = 10,
+                    DurationLimit = (int) runnerMultipleStartLocalSearch.GetAvgTimeOptimalization/1000
+                };
+            RunAlgorithm(runnerIteratedLocalSearch, data);
         }
 
         private static void RunAlgorithm(TspAlgorithmBase algorithm, IDictionary<int, int>[] data)
         {
-            algorithm.CalculateRoutes(data);
             Console.WriteLine(algorithm.ShortestRoute.Value);
+            algorithm.CalculateRoutes(data);
             ResultExporter.Save(algorithm);
             Console.WriteLine("Zapisano:" + algorithm.Name);
         }

@@ -3,22 +3,23 @@ using System.Diagnostics;
 using System.Linq;
 using TSP.Interface;
 
-namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
+namespace TSP.Algorithm.Optimizations.IteratedLocalSearch
 {
-    public class RunnerMultipleStartLocalSearch : TspAlgorithmWithStopWatch
+    public class RunnerIteratedLocalSearch : TspAlgorithmWithStopWatch
     {
         private readonly INonDeterministicAlgorithm _algorithmNonDeterministic;
 
-        public RunnerMultipleStartLocalSearch(INonDeterministicAlgorithm algorithmNonDeterministic)
+        public RunnerIteratedLocalSearch(INonDeterministicAlgorithm algorithmNonDeterministic)
         {
             _algorithmNonDeterministic = algorithmNonDeterministic;
-            Name = ((TspAlgorithmBase) _algorithmNonDeterministic).Name + " MultipleStartLocalSearch";
+            Name = ((TspAlgorithmBase) _algorithmNonDeterministic).Name + " IteratedLocalSearch";
             _stopwatchRoutes = new Dictionary<int, Stopwatch>();
             RouteLengthLimit = ((TspAlgorithmBase) _algorithmNonDeterministic).RouteLengthLimit;
         }
 
-        public int CountStartMultipleStartLocalSearch { get; set; }
-        public int? CountStartInsideMultipleStartLocalSearch { get; set; }
+        public int CountStartIteratedLocalSearch { get; set; }
+        public int DurationLimit { get; set; }
+
 
         public override IList<KeyValuePair<int, int[]>> CalculateRoutes(IDictionary<int, int>[] distances)
         {
@@ -26,21 +27,20 @@ namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
 
             var result = new List<KeyValuePair<int, int[]>>();
 
-            for (var i = 0; i < CountStartMultipleStartLocalSearch; i++)
+            for (var i = 0; i < CountStartIteratedLocalSearch; i++)
             {
                 _stopwatchRoutes[i] = new Stopwatch();
                 _stopwatchRoutes[i].Start();
 
-                var msls = new MultipleStartLocalSearch(_algorithmNonDeterministic)
+                var ils = new IteratedLocalSearch(_algorithmNonDeterministic)
                 {
-                    CountRepeatStartAlgorithm = CountStartInsideMultipleStartLocalSearch,
-                    RouteLengthLimit = RouteLengthLimit
+                    DurationLimit = DurationLimit
                 };
 
-                msls.CalculateRoutes(distances);
+                ils.CalculateRoutes(distances);
                 _stopwatchRoutes[i].Stop();
 
-                result.Add(msls.Routes.OrderBy(r => CalculateRouteLength(r.Value)).First());
+                result.Add(ils.Routes.OrderBy(r => CalculateRouteLength(r.Value)).First());
             }
 
             IsOptimized = true;

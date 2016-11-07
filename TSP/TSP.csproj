@@ -48,6 +48,7 @@
     <Compile Include="Algorithm\NN.cs" />
     <Compile Include="Algorithm\NNGrasp.cs" />
     <Compile Include="Algorithm\Optimizations\IteratedLocalSearch\IteratedLocalSearch.cs" />
+    <Compile Include="Algorithm\Optimizations\IteratedLocalSearch\RunnerIteratedLocalSearch.cs" />
     <Compile Include="Algorithm\Optimizations\LocalSearch.cs" />
     <Compile Include="Algorithm\Optimizations\MultipleStartLocalSearch\MultipleStartLocalSearch.cs" />
     <Compile Include="Algorithm\Optimizations\MultipleStartLocalSearch\RunnerMultipleStartLocalSearch.cs" />
