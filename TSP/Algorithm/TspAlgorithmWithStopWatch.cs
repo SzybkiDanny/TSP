@@ -48,7 +48,7 @@ namespace TSP.Algorithm
             get
             {
                 AssertIsOptimized();
-                return (long)_stopwatchRoutes.Average(q => q.Value.ElapsedMilliseconds);
+                return (long) _stopwatchRoutes.Average(q => q.Value.ElapsedMilliseconds);
             }
         }
 

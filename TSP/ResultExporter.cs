@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using TSP.Algorithm;
+using TSP.Algorithm.RoutesComparer;
 
 namespace TSP
 {
@@ -32,9 +33,7 @@ namespace TSP
                 outputFile.WriteLine(Environment.NewLine + "Średnia długość tras: " +
                                      algorithm.AverageRouteLength);
                 if (algorithm is TspAlgorithmWithStopWatch)
-                {
                     outputFile.WriteLine(GetStopwatchText((TspAlgorithmWithStopWatch) algorithm));
-                }
             }
         }
 
@@ -60,6 +59,33 @@ namespace TSP
             result +=
                 $"Maksymalny czas optymalizacji: {algorithm.GetMaxTimeOptimalization} ms {Environment.NewLine}";
             return result;
+        }
+
+        public static void SaveRoutescomparisions(RunnerRoutesComparer rrC)
+        {
+            if (!Directory.Exists(Folder))
+                Directory.CreateDirectory(Folder);
+
+            var path = $"{Folder}RoutesComparisions{FileExtension}";
+            var result = "idRoute|avgVertices|avgEdges|f(x)" + Environment.NewLine;
+            using (var outputFile = new StreamWriter(path, false))
+            {
+                for (var i = 0; i < rrC.Routes.Count; i++)
+                    result +=
+                        $"{i}|{rrC.AverageVertices(i)}|{rrC.AverageEdges(i)}|{rrC.RoutesLength[i].Value}{Environment.NewLine}";
+
+
+                var idShortestRoute = rrC.ShortestRoute.Key;
+
+                result +=
+                    $"{Environment.NewLine}Porównanie do najkrótszej trasy: {idShortestRoute}{Environment.NewLine}";
+                result += $"idRoute|commonVertices|commonEdges{Environment.NewLine}";
+                for (var i = 0; i < rrC.Routes.Count; i++)
+                    result +=
+                        $"{i}|{rrC.CommonVertices(idShortestRoute, i)}|{rrC.CommonEdges(idShortestRoute, i)}|{rrC.RoutesLength[i].Value}{Environment.NewLine}";
+
+                outputFile.WriteLine(result);
+            }
         }
     }
 }

@@ -33,7 +33,7 @@ namespace TSP.Algorithm
 
                     for (var j = 1; j < route.Count; j++)
                     {
-                        if (route.Count == 3 && j == 2)
+                        if ((route.Count == 3) && (j == 2))
                             continue;
 
                         rcl.TryAdd(new Candidate

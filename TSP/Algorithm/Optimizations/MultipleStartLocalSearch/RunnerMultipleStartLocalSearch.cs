@@ -9,6 +9,7 @@ namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
     {
         private readonly INonDeterministicAlgorithm _algorithmNonDeterministic;
 
+
         public RunnerMultipleStartLocalSearch(INonDeterministicAlgorithm algorithmNonDeterministic)
         {
             _algorithmNonDeterministic = algorithmNonDeterministic;

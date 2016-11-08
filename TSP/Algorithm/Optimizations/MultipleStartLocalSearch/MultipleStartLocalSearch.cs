@@ -7,11 +7,8 @@ namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
 {
     public class MultipleStartLocalSearch : TspAlgorithmBase
     {
-        private readonly Random _random = new Random();
-
         private readonly LocalSearch _algorithmLocalSearch;
-        public int? CountRepeatStartAlgorithm { get; set; }
-        private INonDeterministicAlgorithm _algorithmNonDeterministic { get; }
+        private readonly Random _random = new Random();
 
         public MultipleStartLocalSearch(INonDeterministicAlgorithm algorithmNonDeterministic)
         {
@@ -23,6 +20,9 @@ namespace TSP.Algorithm.Optimizations.MultipleStartLocalSearch
                 RouteLengthLimit = RouteLengthLimit
             };
         }
+
+        public int? CountRepeatStartAlgorithm { get; set; }
+        private INonDeterministicAlgorithm _algorithmNonDeterministic { get; }
 
         public override IList<KeyValuePair<int, int[]>> CalculateRoutes(
             IDictionary<int, int>[] distances)

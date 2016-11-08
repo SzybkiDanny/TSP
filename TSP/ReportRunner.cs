@@ -4,6 +4,7 @@ using TSP.Algorithm;
 using TSP.Algorithm.Optimizations;
 using TSP.Algorithm.Optimizations.IteratedLocalSearch;
 using TSP.Algorithm.Optimizations.MultipleStartLocalSearch;
+using TSP.Algorithm.RoutesComparer;
 
 namespace TSP
 {
@@ -64,6 +65,15 @@ namespace TSP
                 };
             RunAlgorithm(runnerIteratedLocalSearch, data);
         }
+
+        public static void Report4(IDictionary<int, int>[] data)
+        {
+            var rrC = new RunnerRoutesComparer {CountRoutes = 1000};
+            rrC.CalculateRoutes(data);
+            rrC.CompareRoutes();
+            ResultExporter.SaveRoutescomparisions(rrC);
+        }
+
 
         private static void RunAlgorithm(TspAlgorithmBase algorithm, IDictionary<int, int>[] data)
         {
