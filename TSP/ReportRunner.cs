@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TSP.Algorithm;
 using TSP.Algorithm.Optimizations;
+using TSP.Algorithm.Optimizations.Evolutionary;
 using TSP.Algorithm.Optimizations.IteratedLocalSearch;
 using TSP.Algorithm.Optimizations.MultipleStartLocalSearch;
 using TSP.Algorithm.RoutesComparer;
@@ -57,13 +58,13 @@ namespace TSP
                 };
             RunAlgorithm(runnerMultipleStartLocalSearch, data);
 
-            var runnerIteratedLocalSearch =
-                new RunnerIteratedLocalSearch(new GreedyCycleGrasp {RouteLengthLimit = 50})
-                {
-                    CountStartIteratedLocalSearch = 10,
-                    DurationLimit = (int) runnerMultipleStartLocalSearch.GetAvgTimeOptimalization/1000
-                };
-            RunAlgorithm(runnerIteratedLocalSearch, data);
+            //var runnerIteratedLocalSearch =
+            //    new RunnerIteratedLocalSearch(new GreedyCycleGrasp {RouteLengthLimit = 50})
+            //    {
+            //        CountStartIteratedLocalSearch = 10,
+            //        DurationLimit = (int) runnerMultipleStartLocalSearch.GetAvgTimeOptimalization/1000
+            //    };
+            //RunAlgorithm(runnerIteratedLocalSearch, data);
         }
 
         public static void Report4(IDictionary<int, int>[] data)
@@ -81,6 +82,27 @@ namespace TSP
             algorithm.CalculateRoutes(data);
             ResultExporter.Save(algorithm);
             Console.WriteLine("Zapisano:" + algorithm.Name);
+        }
+
+        public static void Report5(IDictionary<int, int>[] data)
+        {
+            var algorithmRuns = new List<Evolutionary>();
+
+            for (var i = 0; i < 10; i++)
+            {
+                var evo = new Evolutionary(new RandomRoutes() { RouteLengthLimit = 50 })
+                {
+                    Name = $"evolutionary{i + 1}",
+                    DurationLimit = 30,
+                    PopulationSize = 20
+                };
+
+                evo.CalculateRoutes(data);
+
+                algorithmRuns.Add(evo);
+
+                ResultExporter.SaveEvolutionary(evo);
+            }
         }
     }
 }

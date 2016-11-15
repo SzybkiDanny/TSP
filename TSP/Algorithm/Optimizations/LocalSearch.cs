@@ -9,6 +9,9 @@ namespace TSP.Algorithm.Optimizations
     {
         private readonly TspAlgorithmBase _algorithm;
 
+        internal LocalSearch()
+        {   
+        }
 
         public LocalSearch(TspAlgorithmBase algorithm)
         {

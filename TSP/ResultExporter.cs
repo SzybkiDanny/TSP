@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using TSP.Algorithm;
+using TSP.Algorithm.Optimizations.Evolutionary;
 using TSP.Algorithm.RoutesComparer;
 
 namespace TSP
@@ -34,6 +35,39 @@ namespace TSP
                                      algorithm.AverageRouteLength);
                 if (algorithm is TspAlgorithmWithStopWatch)
                     outputFile.WriteLine(GetStopwatchText((TspAlgorithmWithStopWatch) algorithm));
+            }
+        }
+
+        public static void SaveEvolutionary(Evolutionary algorithm)
+        {
+            if (!Directory.Exists(Folder))
+                Directory.CreateDirectory(Folder);
+
+            var path = $"{Folder}{algorithm.Name}{FileExtension}";
+
+            using (var outputFile = new StreamWriter(path, false))
+            {
+                outputFile.WriteLine("Najkrótsza trasa:");
+                outputFile.WriteLine(GetRouteText(algorithm.ShortestRoute.Key,
+                    algorithm.ShortestRoute.Value,
+                    algorithm.Routes.First(q => q.Key == algorithm.ShortestRoute.Key).Value));
+
+                outputFile.WriteLine("Najdłuższa trasa:");
+                outputFile.WriteLine(GetRouteText(algorithm.LongestRoute.Key,
+                    algorithm.LongestRoute.Value,
+                    algorithm.Routes.First(q => q.Key == algorithm.LongestRoute.Key).Value));
+
+                outputFile.WriteLine(Environment.NewLine + "Średnia długość tras: " +
+                                     algorithm.AverageRouteLength);
+
+                outputFile.WriteLine(Environment.NewLine + "Czas wykonywania: " +
+                                     (double) algorithm.Duration / 1000);
+
+                outputFile.WriteLine("Iteracja;Czas działania LS; Wynik działania LS");
+                for (var i = 0; i < algorithm.LSResults.Count; i++)
+                {
+                    outputFile.WriteLine($"{i + 1};{algorithm.LSRuntimes[i]};{algorithm.LSResults[i]}");
+                }
             }
         }
 

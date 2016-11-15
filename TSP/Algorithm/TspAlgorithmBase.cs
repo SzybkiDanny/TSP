@@ -10,7 +10,7 @@ namespace TSP.Algorithm
         public IDictionary<int, int>[] Distances;
         public bool IsCalculated { get; protected set; }
         public int? RouteLengthLimit { get; set; }
-        public string Name { get; protected set; }
+        public string Name { get; set; }
 
         public IList<KeyValuePair<int, int[]>> Routes
         {

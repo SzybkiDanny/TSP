@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using TSP.Algorithm;
+using TSP.Algorithm.Optimizations.Evolutionary;
 
 namespace TSP
 {
@@ -14,7 +16,8 @@ namespace TSP
 
             //ReportRunner.Report2(data);
             //ReportRunner.Report3(data);
-            ReportRunner.Report4(data);
+            //ReportRunner.Report4(data);
+            ReportRunner.Report5(data);
 
             Console.WriteLine("Zakończono");
             Console.ReadKey(true);
