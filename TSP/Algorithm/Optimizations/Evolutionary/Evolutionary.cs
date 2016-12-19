@@ -64,7 +64,7 @@ namespace TSP.Algorithm.Optimizations.Evolutionary
                 if (recombinedRouteLength >= CalculateRouteLength(result[longestRouteIndex].Value))
                     continue;
 
-                if (result.TrueForAll(x => !x.Value.Contains(recombinedRoute)))
+                if (!result.TrueForAll(x => !x.Value.Contains(recombinedRoute)))
                     continue;
 
                 result[longestRouteIndex] = new KeyValuePair<int, int[]>(recombinedRoute.First(), recombinedRoute);
